@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:UdpProductServer.Data.Model"
+             xmlns:viewModel="clr-namespace:UdpProductServer.ViewModel.MainViewModel"
+             x:Class="UdpProductServer.View.MainPage"
+             x:DataType="viewModel:MainViewModel"
+             Title="Chat">
+
+    <Grid
+    ColumnDefinitions="*"
+    RowDefinitions="55, *"
+    RowSpacing="2">
+        <Border
+        Padding="2"
+        StrokeThickness="2"
+        StrokeShape="RoundRectangle 3"
+        Stroke="Gray">
+            <HorizontalStackLayout Spacing="2">
+                <Entry MinimumWidthRequest="350" Placeholder="IP" Text="{Binding Ip}" IsEnabled="{Binding IsNotRunning}"/>
+                <Entry MinimumWidthRequest="150" Placeholder="Port" Text="{Binding Port}" IsEnabled="{Binding IsNotRunning}"/>
+                <Button Text="Start" Command="{Binding StartCommand}" IsEnabled="{Binding IsNotRunning}" CornerRadius="3"/>
+                <Button Text="Stop" Command="{Binding StopCommand}" IsEnabled="{Binding IsRunning}" CornerRadius="3"/>
+            </HorizontalStackLayout>
+        </Border>
+
+        <Border
+        Grid.Row="1"
+        Padding="2"
+        StrokeThickness="2"
+        StrokeShape="RoundRectangle 3"
+        Stroke="Gray">
+            <CollectionView ItemsSource="{Binding MessageHistory}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Message">
+                        <Border
+                        StrokeShape="RoundRectangle 3"
+                        BackgroundColor="Gray">
+                            <Grid
+                            RowDefinitions="*, *"
+                            ColumnDefinitions="160, 40, *">
+                                <Label Text="{Binding Sender}"/>
+                                <Label Grid.Column="1" Text="|"/>
+                                <Label Grid.Column="2" Grid.RowSpan="3" Text="{Binding Content}"/>
+                                <Label Grid.Row="1" Text="{Binding Time}"/>
+                                <Label Grid.Column="1" Grid.Row="1" Text="|"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Border>
+    </Grid>
+
+</ContentPage>

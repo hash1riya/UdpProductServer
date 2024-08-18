@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:UdpProductServer.Data.Model"
+             xmlns:viewModel="clr-namespace:UdpProductServer.ViewModel.ProductPageViewModel"
+             x:Class="UdpProductServer.View.ProductPage"
+             x:DataType="viewModel:ProductPageViewModel"
+             Title="Products">
+
+    <Grid
+        ColumnDefinitions="300, *"
+        RowDefinitions="*"
+        Padding="10"
+        ColumnSpacing="5">
+        <Border
+            Padding="8"
+            StrokeShape="RoundRectangle 3"
+            Stroke="DimGray">
+            <VerticalStackLayout Spacing="8">
+                <Entry Text="{Binding NewProduct.Name}" Placeholder="Product name"/>
+                <Entry Text="{Binding NewProduct.Description}" Placeholder="Description"/>
+                <Entry Text="{Binding NewProduct.Price}" Placeholder="Price"/>
+                <Button Text="Add" Command="{Binding AddProductCommand}" CornerRadius="3"/>
+            </VerticalStackLayout>
+        </Border>
+        <Border
+            Padding="2"
+            StrokeShape="RoundRectangle 3"
+            Stroke="DimGray"
+            Grid.Column="1">
+            <VerticalStackLayout Spacing="10">
+                <Grid
+                    ColumnDefinitions="170, *, 100, 50"
+                    RowDefinitions="20"
+                    Margin="5, 2, 2, 2">
+                    <Label Text="Name"/>
+                    <Label Grid.Column="1" Text="Description"/>
+                    <Label Grid.Column="2" Text="Price"/>
+                </Grid>
+                <CollectionView ItemsSource="{Binding Products}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:Product">
+                            <Border
+                                StrokeShape="RoundRectangle 3"
+                                BackgroundColor="Gray">
+                                <Grid
+                                    ColumnDefinitions="170, *, 100, 50"
+                                    RowDefinitions="*"
+                                    Margin="5, 2, 2, 2">
+                                    <Label VerticalOptions="Center" Text="{Binding Name}"/>
+                                    <Label VerticalOptions="Center" Grid.Column="1" Text="{Binding Description}"/>
+                                    <Label VerticalOptions="Center" Grid.Column="2" Text="{Binding Price}"/>
+                                    <Button
+                                        Grid.Column="3"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:ProductPageViewModel}}, Path=RemoveProductCommand}"
+                                        CommandParameter="{Binding Id}"
+                                        ImageSource="bin.png"
+                                        CornerRadius="2"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+
+</ContentPage>
